@@ -2,8 +2,18 @@ import express from 'express';
 import { ENV } from './lib/env.js';
 import path from 'path';
 import { connectDB } from './lib/db.js';
+import cors from 'cors';
+import { clerkMiddleware } from "@clerk/express";
+import { serve } from "inngest/express";
 
 const app = express();
+
+//middleware
+app.use(cors({ origin: ENV.CLIENT_URL, credentials: true }));
+app.use(express.json());
+app.use(clerkMiddleware());
+
+app.use("/api/inngest", serve({ client: inngest, functions }));
 
 const __dirname = path.resolve();
 
