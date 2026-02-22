@@ -25,7 +25,7 @@ app.get('/health', (req, res) => {
 });
 
 app.use("/api/chat", chatRoutes);
-app.use("/api/sessions", sessionRoutes);
+app.use("/sessions", sessionRoutes);
 
 //make our app ready for production
 if (ENV.NODE_ENV === 'production') {
