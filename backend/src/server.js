@@ -6,6 +6,8 @@ import cors from 'cors';
 import { clerkMiddleware } from "@clerk/express";
 import { serve } from "inngest/express";
 import { inngest, functions } from "./lib/inngest.js";
+import chatRoutes from "./routes/chatRoutes.js";
+import sessionRoutes from "./routes/sessionRoute.js";
 
 const app = express();
 
@@ -22,9 +24,8 @@ app.get('/health', (req, res) => {
     res.status(200).json({ msg: 'api is up and running' });
 });
 
-app.get('/books', (req, res) => {
-    res.status(200).json({ msg: 'books is up and running' });
-});
+app.use("/api/chat", chatRoutes);
+app.use("/api/sessions", sessionRoutes);
 
 //make our app ready for production
 if (ENV.NODE_ENV === 'production') {
