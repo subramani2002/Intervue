@@ -23,6 +23,14 @@ function useStreamClient(session, loadingSession, isHost, isParticipant) {
       try {
         const { token, userId, userName, userImage } = await sessionApi.getStreamToken();
 
+        // Debug log to catch missing values
+        if (!userId || !token) {
+          console.error("Stream userId or token is missing", { userId, token, userName, userImage });
+          toast.error("Failed to join video call: Missing user credentials");
+          setIsInitializingCall(false);
+          return;
+        }
+
         const client = await initializeStreamClient(
           {
             id: userId,
